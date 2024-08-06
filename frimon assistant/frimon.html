@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Simple Page</title>
+    <style>
+        body {
+            margin-top: 0;
+            font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+            font-size: large;
+            min-width: 50vw;
+            min-height: 100vh;
+            background:linear-gradient(38deg,#6f6f72, #010758);
+
+            
+        }
+
+        .notification-bar {
+            position: fixed;
+            left: 5%;
+            top: 50px;
+            background-color: #fc6565;
+            padding: 6px;
+            width: 30px;
+            height: 30px;
+            border-radius: 20px;
+            cursor: pointer;
+
+        }
+
+        .notification-bar:hover{
+            transform: scale(1.1);
+        }
+
+        .content {
+            display: flex;
+            left: 20%;
+            right: 20%;
+            top: 20%;
+            position: fixed;
+            flex-direction: column;
+            height: 60vh;
+            /* Sets the height to 55% of the viewport */
+            width: 60vw;
+        }
+
+        .top-left {
+            position: fixed;
+            right: 5%;
+            top: 40px;
+            width: 40px;
+            height: 40px;
+            border-radius: 10px;
+            background-color: lightblue;
+            /* For visual reference */
+            
+        }
+       /* .top-left:active{
+            
+        }*/
+
+        .top-left ul{
+            display: flex;
+            padding: 0;
+            position: relative ;
+            flex-direction: column;
+            margin: 0;
+            gap: 3px;
+            
+            
+        }
+        .top-left ul hr{
+            width: 80%;
+        }
+
+        .top-left img{
+            width: 40px;
+            height: 40px;
+            overflow: hidden;
+            cursor: pointer;
+            transform: scale(1.05);
+
+        }
+        .top-left ul li{
+            position: relative;
+            background-color: rgb(68, 102, 91);
+            margin-right: -10px;
+            left: -30px;
+            top: -50px;
+            width: 250%;
+            padding: 8px;
+            list-style: none;
+            cursor: pointer;
+            
+            
+            
+        }
+
+        .top-left ul li:hover{
+            background-color: #6f6f72;
+        }
+        .top-left ul li:active{
+            transform: scale(1.05);
+        }
+        .double-pane {
+            display: flex;
+            gap: 15px;
+            flex-direction: column;
+            height: 100vh;
+            
+            
+            /* Changed to column */
+        }
+
+        .top-pane,
+        .bottom-pane {
+            flex: 1;
+            border: none;
+            box-shadow: none;
+
+        }
+
+        .top-pane:active,
+        .bottom-pane:active{
+            border: none;
+        }
+        .top-pane textarea {
+            position: relative;
+            margin: 0;
+            width: 100%;
+            height: 100%;
+            resize: none;
+            border: none;
+            padding: 5px;
+            font-size: larger;
+            background-color: rgb(161, 161, 161);
+            color: rgb(81, 81, 81);
+            cursor: pointer;
+        }
+        .top-pane textarea:active{
+            border: none;
+            
+            
+        }
+
+        .bottom-pane textarea {
+            position: relative;
+            background-color: rgb(50, 50, 50);
+            color: white;
+            margin: 0;
+            width: 100%;
+            height: 85%;
+            resize: none;
+            border-top: solid 1px black;
+            border: none;
+            padding: 5px;
+            font-size: large;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+
+        .time-date {
+            position: absolute;
+            bottom: 5px;
+            right: 10px;
+            background:linear-gradient(50deg,#545461, #181e6d);
+            padding: 8px;
+            color: white;
+            font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+            font-size: 22px;
+            font-weight: 600;
+            border-radius: 30px;
+
+        }
+
+        .copyright {
+            position: absolute;
+            bottom: 5px;
+            left: 50%;
+            background-color: #5c5c5d;
+            padding: 8px;
+            color: white;
+            font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+            font-size: 22px;
+            font-weight: 600;
+            border-radius: 30px;
+            transform: translateX(-50%);
+        }
+    </style>
+</head>
+
+<body>
+    <div class="notification-bar">
+    </div>
+   
+    <div class="top-left">
+        <img src="14925214.png" alt="">
+        <ul class="menu-icon">
+            <li id="voice-change">Voices</li>
+            <li>#</li>
+            <li>Themes</li>
+            <li>Settings</li>
+        </ul>
+    </div>
+    <div class="content">
+        
+        <div class="double-pane">
+            <div class="top-pane">
+                <textarea readonly></textarea>
+            </div>
+            <div class="bottom-pane">
+                <textarea placeholder="Talk to me.." id="convert_text"></textarea>
+            </div>
+        </div>
+    </div>
+    <div class="time-date">
+        <script>
+            //1.Add the throbbing animation to the notification bar: color rippling when there is a notification
+            //2.Finish styling the top left panel.
+            //3.
+            const list = document.querySelector('ul');
+            const imgtrigger = document.querySelector('img');
+            const configEl = document.querySelector('.top-left');
+
+
+                list.style.visibility = 'hidden'; // Initially hide the element
+                list.style.userSelect = 'none'; // Prevent selection
+
+                imgtrigger.addEventListener('click', () => {
+                    list.style.visibility = 'visible';
+                    list.style.userSelect = 'auto'; // Allow selection
+                    configEl.style.visibility = 'hidden';
+                    
+                });
+                
+            document.write(new Date().toLocaleString());
+            
+            function updateTime() {
+                const now = new Date();
+                const timeString = now.toLocaleTimeString();
+                const dateString = now.toLocaleDateString();
+                document.querySelector('.time-date').textContent = `${dateString}, ${timeString}`;
+            }
+    
+            setInterval(updateTime, 1000);
+        </script>
+    </div>
+    <div class="copyright">
+       &copy; Ambundo
+    </div>
+</body>
+<script src="textospeech.js"></script>
+
+</html>
