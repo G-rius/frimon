@@ -15,7 +15,7 @@ window.onload = () => {
     speech.text = message;
     window.speechSynthesis.speak(speech);
     }
-    setInterval(readout("welcome, my name is Frimon"),1000);
+    setInterval(readout("Hello and welcome, my name is Frimon"),1000);
     
 }
 

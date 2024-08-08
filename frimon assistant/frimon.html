@@ -2,8 +2,18 @@
 <html>
 
 <head>
-    <title>Simple Page</title>
+    <title>Frimon assistant</title>
+
+    
     <style>
+
+
+
+        /*This is all css from here i put them in the same page
+         to reduce the need for having bulk file
+        ...at the expense of bulk view, is tough*/
+
+
         body {
             margin-top: 0;
             font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
@@ -55,9 +65,6 @@
             /* For visual reference */
             
         }
-       /* .top-left:active{
-            
-        }*/
 
         .top-left ul{
             display: flex;
@@ -69,6 +76,7 @@
             
             
         }
+
         .top-left ul hr{
             width: 80%;
         }
@@ -79,8 +87,8 @@
             overflow: hidden;
             cursor: pointer;
             transform: scale(1.05);
-
         }
+
         .top-left ul li{
             position: relative;
             background-color: rgb(68, 102, 91);
@@ -91,8 +99,6 @@
             padding: 8px;
             list-style: none;
             cursor: pointer;
-            
-            
             
         }
 
@@ -108,8 +114,6 @@
             flex-direction: column;
             height: 100vh;
             
-            
-            /* Changed to column */
         }
 
         .top-pane,
@@ -123,8 +127,10 @@
         .top-pane:active,
         .bottom-pane:active{
             border: none;
+            
+            
         }
-        .top-pane textarea {
+        .top-pane .ai-window {
             position: relative;
             margin: 0;
             width: 100%;
@@ -140,6 +146,13 @@
         .top-pane textarea:active{
             border: none;
             
+        }
+        .bottom-pane .chat-window{
+            position: relative;
+            background-color:rgb(111, 111, 111);
+            width: 100%;
+            height: 60%;
+            padding: 5px;
             
         }
 
@@ -148,12 +161,14 @@
             background-color: rgb(50, 50, 50);
             color: white;
             margin: 0;
-            width: 100%;
-            height: 85%;
+            width: 95%;
+            height: 15%;
             resize: none;
             border-top: solid 1px black;
+            border-bottom-left-radius:  40px;
+            border-bottom-right-radius: 40px;
             border: none;
-            padding: 5px;
+            padding: 4px 19px;
             font-size: large;
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         }
@@ -189,12 +204,20 @@
     </style>
 </head>
 
+
+
+<!--This is all body from here pay attention not
+ to confuse it when editing the code so usichanganyikiwe 
+ sai ni kunoma. do not waste this!-->
+
+
+
 <body>
     <div class="notification-bar">
     </div>
    
     <div class="top-left">
-        <img src="14925214.png" alt="">
+        <img src="extras/14925214.png" alt="">
         <ul class="menu-icon">
             <li id="voice-change">Voices</li>
             <li>#</li>
@@ -206,9 +229,23 @@
         
         <div class="double-pane">
             <div class="top-pane">
-                <textarea readonly></textarea>
+                <div class="ai-window">
+                    <ul class="chatbot">
+                        <li id="incoming">
+                            <img src="" alt="">
+                            <p>Something fantastic</p>
+                        </li>
+                        <li id="outgoing">
+                            <img src="" alt="">
+                            <p>Something fantastic</p>
+                        </li>
+                    </ul>
+                </div>
             </div>
             <div class="bottom-pane">
+                <div class="chat-window">
+
+                </div>
                 <textarea placeholder="Talk to me.." id="convert_text"></textarea>
             </div>
         </div>
@@ -249,6 +286,15 @@
        &copy; Ambundo
     </div>
 </body>
+
+
+
+<!-- This isthe end of the body element 
+    now we get into script,
+    do not confuse this with all other elements!-->
+
+
+
 <script src="textospeech.js"></script>
 
 </html>
