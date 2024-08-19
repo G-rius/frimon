@@ -8,7 +8,7 @@ import { HfInference } from "@huggingface/inference/dist/src/index";
        
      }*/
 
-    const inference = new HfInference("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");
+    const inference = new HfInference("hf_xxxxxxxxxxxxxxxxxxxxx");
 
     for await (const chunk of inference.chatCompletionStream({
       model: "meta-llama/Meta-Llama-3.1-8B-Instruct",
