@@ -1,0 +1,529 @@
+<html>
+
+<head>
+    <title>Frimon assistant</title>
+
+    <style>
+        /*This is all css from here i put them in the same page
+         to reduce the need for having bulk file
+        ...at the expense of bulk view, is tough*/
+
+
+        body {
+            margin-top: 0;
+            font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+            font-size: large;
+            min-width: 50vw;
+            height: 100%;
+            background: linear-gradient(38deg, #6f6f72, #010758);
+
+        }
+
+        .notification-bar {
+            position: fixed;
+            left: 5%;
+            top: 50px;
+            background-color: #fc6565;
+            padding: 6px;
+            width: 30px;
+            height: 30px;
+            border-radius: 20px;
+            cursor: pointer;
+
+        }
+
+        .notification-bar:hover {
+            transform: scale(1.1);
+        }
+
+        .content {
+            display: flex;
+            left: 20%;
+            right: 20%;
+            top: 30%;
+            position: absolute;
+            flex-direction: column;
+            height: 60vh;
+            /* Sets the height to 55% of the viewport */
+            width: 60vw;
+        }
+
+        .top-left {
+            position: fixed;
+            right: 5%;
+            top: 40px;
+            width: 40px;
+            height: 40px;
+            border-radius: 10px;
+            background-color: lightblue;
+            /* For visual reference */
+
+        }
+
+        .top-left ul {
+            display: flex;
+            padding: 0;
+            position: relative;
+            flex-direction: column;
+            margin: 0;
+            gap: 3px;
+
+
+        }
+
+        .top-left ul hr {
+            width: 80%;
+        }
+
+        .top-left img {
+            width: 40px;
+            height: 40px;
+            overflow: hidden;
+            cursor: pointer;
+            transform: scale(1.05);
+        }
+
+        .top-left ul li {
+            position: relative;
+            background-color: rgb(68, 102, 91);
+            margin-right: -10px;
+            left: -30px;
+            top: -50px;
+            width: 250%;
+            padding: 8px;
+            list-style: none;
+            cursor: pointer;
+
+        }
+
+        .top-left ul li:hover {
+            background-color: #6f6f72;
+        }
+
+        .top-left ul li:active {
+            transform: scale(1.05);
+        }
+
+        .double-pane {
+            display: flex;
+            gap: 10px;
+            flex-direction: column;
+            height: 100vh;
+
+        }
+
+        .top-pane,
+        .bottom-pane {
+            display: flex;
+            flex-direction: column;
+            border: none;
+            box-shadow: none;
+            align-items: center;
+
+
+        }
+
+        .top-pane:active,
+        .bottom-pane:active {
+            border: none;
+
+
+        }
+
+        .top-pane .ai-window {
+            position: relative;
+            margin: 0;
+            width: 100%;
+            height: 100%;
+            resize: none;
+            border: none;
+            text-align: center;
+            font-size: larger;
+            background-color: rgb(161, 161, 161);
+            color: rgb(65, 58, 58);
+            cursor: pointer;
+        }
+
+        .top-pane textarea:active {
+            border: none;
+
+        }
+
+        .bottom-pane .chat-window {
+            position: relative;
+            background-color: rgb(111, 111, 111);
+            width: 100%;
+            height: fit-content;
+            overflow: hidden;
+
+
+
+        }
+
+        .chat-window .chatbot {
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+        }
+
+        .chatbot li {
+            position: relative;
+            list-style: none;
+            padding: 2px;
+
+        }
+
+        .chatbot #incoming p {
+            position: relative;
+            align-items: flex-start;
+            color: white;
+            background: #31009c;
+            max-width: 300px;
+            border-radius: 10px 10px 10px 0;
+            left: -10px;
+
+
+
+        }
+
+        .chatbot #outgoing {
+            position: relative;
+            align-self: flex-end;
+            max-width: 300px;
+            right: -10px;
+
+
+
+        }
+
+        .chat-window .chatbot p {
+            margin: 0;
+            user-select: none;
+            color: white;
+            max-width: 75%;
+            padding: 5px 16px;
+            border-radius: 10px 10px 0 10px;
+            background: #2c2e4b;
+
+        }
+
+        .input {
+            position: relative;
+            display: flex;
+            width: 100%;
+            height: 200px;
+
+
+        }
+
+        .bottom-pane .input textarea {
+            position: relative;
+            display: flex;
+            background-color: rgb(50, 50, 50);
+            color: white;
+            margin: 0;
+            width: 100%;
+            height: 20%;
+            max-height: fit-content;
+            min-height: fit-content;
+            resize: none;
+            padding-top: 3px;
+            border-top: solid 1px black;
+            border-bottom-left-radius: 25px;
+            border-bottom-right-radius: 25px;
+            border: none;
+            text-align: center;
+            font-size: 20px;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+
+        }
+
+        .bottom-pane .input #send-btn {
+            position: absolute;
+            display: flex;
+            background-color: rgb(65, 65, 65);
+            cursor: pointer;
+            width: 55px;
+            height: 30px;
+            justify-content: center;
+            color: white;
+            border-radius: 15px;
+            right: 6px;
+            bottom: 167px;
+            font-size: 20px;
+            font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+            overflow: hidden;
+            visibility: hidden;
+            scrollbar-width: 5px;
+        }
+
+        .bottom-pane #send-btn:hover {
+            transform: scale(1.04);
+            background-color: #97979a;
+
+        }
+
+        .bottom-pane #rec-btn {
+            position: absolute;
+            display: flex;
+            background-color: aliceblue;
+            cursor: pointer;
+            width: 35px;
+            height: 35px;
+            justify-content: center;
+            border-radius: 20px;
+            bottom: 164px;
+            /*right: 65px;*/
+            right: 6px;
+
+        }
+
+        .bottom-pane #rec-btn:hover {
+            background-color: #ef7171;
+        }
+
+        .bottom-pane #rec-btn img {
+            width: 30px;
+            height: 30px;
+        }
+
+        /*add the scale transformation to the send-btn element*/
+
+        .time-date {
+            position: fixed;
+            bottom: 5px;
+            right: 10px;
+            background: linear-gradient(50deg, #545461, #181e6d);
+            padding: 8px;
+            color: white;
+            font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+            font-size: 22px;
+            font-weight: 600;
+            border-radius: 30px;
+
+        }
+
+        .copyright {
+            position: fixed;
+            bottom: 5px;
+            left: 50%;
+            background-color: #5c5c5d;
+            padding: 8px;
+            color: white;
+            font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+            font-size: 22px;
+            font-weight: 600;
+            border-radius: 30px;
+            transform: translateX(-50%);
+        }
+    </style>
+</head>
+<!--This is all body from here pay attention not
+ to confuse it when editing the code so usichanganyikiwe 
+ sai ni kunoma. do not waste this!-->
+
+
+
+<body>
+    <div class="notification-bar">
+    </div>
+
+    <div class="top-left">
+        <img src="extras/14925214.png" alt="">
+        <ul class="menu-icon">
+            <li id="voice-change">Voices</li>
+
+
+            <!--style this link to have the substitution effect for the text 
+            so whenever we have to use voice or text, the text area is replaced
+             by the microphone and speech or the microphone is replaced by the textarea-->
+            <li class="voice-text">Text only</li>
+            <li>Themes</li>
+            <li>Settings</li>
+        </ul>
+    </div>
+    <div class="content">
+
+        <div class="double-pane">
+            <div class="top-pane">
+                <div class="ai-window">
+                    <p> What now?</p>
+                </div>
+            </div>
+            <div class="bottom-pane">
+                <div class="chat-window">
+                    <ul class="chatbot">
+                        <li id="incoming">
+                            <p>Something fantastic</p>
+                        </li>
+                        <li id="outgoing">
+                            <p>Something fantastic like really fantastic</p>
+                        </li>
+                    </ul>
+                </div>
+                <div class="input">
+                    <textarea placeholder="Talk to me.." id="convert_text"></textarea>
+                    <span id='send-btn'>send</span>
+                    <button id="rec-btn">
+                        <img src="extras/icons8-microphone-50.png" alt="">
+                    </button>
+                    <script>
+                        const startBtn = document.getElementById('rec-btn');
+                        let buttonpress = 0;
+                        const recognition = new webkitSpeechRecognition();
+                        recognition.continuous = true;
+                        recognition.lang = "en-US";
+                        recognition.interimResults = false;
+                        recognition.maxAlternatives = 1;
+
+                        const readout = (message) => {
+                            const speech = new SpeechSynthesisUtterance();
+                            const allVoices = speechSynthesis.getVoices();
+                            speech.voice = allVoices[2];
+                            speech.volume = 0.7;
+                            speech.text = message;
+                            speech.rate = 1.6;
+                            speech.pitch = 1.9;
+
+                            window.speechSynthesis.speak(speech);
+                        }
+
+                        startBtn.addEventListener("click", () => {
+                            recognition.start();
+                            startBtn.style.backgroundColor = "#ef7171";
+
+                        });
+
+                        recognition.onresult = (e) => {
+                            const my_words = (e.results[e.results.length - 1][0].transcript).toLowerCase();
+                            //add more implementation here.
+
+                            console.log(`${my_words}`);
+
+                            //add the words said to the chat.
+                            if (my_words.includes('standby') || my_words.includes('stop recording') || my_words.includes('stand by')) {
+                                readout('standingby');
+                                recognition.stop();
+                                startBtn.style.backgroundColor = "aliceblue";
+                            }
+
+                            if (my_words.includes("hey freemon") || my_words.includes("hey freeman")) {
+                                readout("Yes sir");
+                            };
+                            if (my_words.includes("open my youtube")) {
+                                readout("opening your youtube feed");
+                                window.open("https://www.youtube.com/feed/you")
+                            };
+                            if (my_words.includes("open youtube")) {
+                                readout("opening youtube");
+                                window.open("https://www.youtube.com/")
+                            };
+
+                            if (my_words.includes('open google')) {
+                                readout('opening google');
+                                window.open('https://www.google.com/');
+                            };
+
+                            if (my_words.includes('search for')) {
+                                readout("here's the result");
+                                let input = my_words.split('');
+                                input.splice(0, 11);
+                                input = input.join('').split(" ").join('+');
+                                console.log(input);
+                                window.open(`https://www.google.com/search?q=${input}`);
+                            };
+
+                            if (my_words.includes('open my github')) {
+                                readout('opening your github');
+                                window.open('https://github.com/G-rius');
+                            };
+
+                            if (my_words.includes('open github') || my_words.includes('open github')) {
+                                readout('opening git hub');
+                                window.open('https://github.com/');
+                            };
+
+                            if(my_words.includes('open twitter') || my_words.includes('open x')){
+                                readout('opening x');
+                                window.open('https://x.com/home');
+                            };
+
+
+
+                        };
+                    </script>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="time-date">
+        <script>
+            document.write(new Date().toLocaleString());
+
+            function updateTime() {
+                const now = new Date();
+                const timeString = now.toLocaleTimeString();
+                const dateString = now.toLocaleDateString();
+                document.querySelector('.time-date').textContent = `${dateString}, ${timeString}`;
+            }
+
+            setInterval(updateTime, 1000);
+        </script>
+    </div>
+    <div class="copyright">
+        &copy; Ambundo
+    </div>
+</body>
+
+
+
+<!-- This is the end of the body element 
+now we get into script,
+do not confuse this with all other elements!-->
+
+<script>
+    //1.Add the throbbing animation to the notification bar: color rippling when there is a notification
+    //2.Finish styling the top left panel: add the components, the invisibility once it's inactive.
+    //3.The display for the ai suggestion window:reminder, history, 'where to start'..
+    //4.Prompt the user to use the online ai, offline ai. 
+    //>...add the option in the top-left panel. 
+    //>...and an option to insert own api.
+
+
+    const list = document.querySelector('ul');
+    const imgtrigger = document.querySelector('img');
+    const configEl = document.querySelector('.top-left');
+
+
+    list.style.visibility = 'hidden'; // Initially hide the element
+    list.style.userSelect = 'none'; // Prevent selection
+
+    imgtrigger.addEventListener('click', () => {
+        list.style.visibility = 'visible';
+        list.style.userSelect = 'auto'; // Allow selection
+        configEl.style.visibility = 'hidden';
+
+
+    });
+
+
+    //
+    /*window.addEventListener('click', (e)=>{
+        if(e.target === !body){
+            configEl.style.visibility = 'visible';
+            list.style.visibility = 'hidden';
+        }
+    })*/
+
+
+
+
+
+</script>
+<script src="textospeech.js"></script>
+<script></script>
+<script src="script.js"></script>
+
+</html>
